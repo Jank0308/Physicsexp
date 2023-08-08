@@ -29,7 +29,24 @@ class Cube():
     def update(self):
         self.x += self.xvel/10
         self.y += self.yvel/10
-        
+        #friction #
+        if gamecontrol %15 == 0:
+            if self.xvel == 0: pass
+            elif self.xvel<0:
+                self.xvel+=0.5*speed
+            
+            elif self.xvel>0:
+                self.xvel-=0.5*speed
+            
+            if self.yvel == 0: pass
+            elif self.yvel<0:
+                self.yvel+=0.5*speed
+            elif self.yvel>0:
+                self.yvel-=0.5*speed
+        if self.x >800 or self.x<0:
+            self.x *=-1
+        if self.y >800 or   self.y<0:
+            self.y *=-1
         
     def kinenergy(self):
         asq = self.xvel**2
@@ -46,13 +63,8 @@ class Cube():
             self.yvel = (self.yvel+other.yvel)/2
             return True
         
-    def update(self):
-        if self.x >800 or self.x<0:
-            self.x *=-1
-        if self.y >800 or   self.y<0:
-            self.y *=-1
-        self.x += self.xvel/10
-        self.y += self.yvel/10
+    
+        
         
 
         
@@ -92,20 +104,9 @@ while running:
             player.yvel -= speed
         if keys[pygame.K_DOWN]:
             player.yvel += speed
-    #friction
-    if gamecontrol == 50:
-        if player.xvel == 0: pass
-        elif player.xvel<0:
-            player.xvel+=speed
+    
+    
         
-        elif player.xvel>0:
-            player.xvel-=speed
-        
-        if player.yvel == 0: pass
-        elif player.yvel<0:
-            player.yvel+=speed
-        elif player.yvel>0:
-            player.yvel-=speed
 
     player.draw(screen)
     player.update()
