@@ -47,27 +47,26 @@ class Cube():
             self.x *=-1
         if self.y >800 or   self.y<0:
             self.y *=-1
-        
+
+    def collidetest(self,other):
+        if (other.x > self.x-10 or other.x < self.x+10) and (other.y > self.y-10 or other.y < self.y+10):
+            return False
+        elif (other.x < self.x-10 or other.x > self.x+10) and (other.y < self.y-10 or other.y > self.y+10):
+            return True
     def kinenergy(self):
         asq = self.xvel**2
         bsq = self.yvel**2
         c = math.sqrt(asq+bsq)
         return (self.mass*0.5)*(c**2)
         
-    def is_collided_with(self, other):
-        
-        if pygame.Rect(self.x, self.y, self.width, self.height).colliderect(other):
+    def is_collided_with(self, other):     
+        if self.collidetest(other):
             other.xvel = (self.xvel+other.xvel)/2
             other.yvel = (self.yvel+other.yvel)/2
             self.xvel = (self.xvel+other.xvel)/2
             self.yvel = (self.yvel+other.yvel)/2
-            return True
-        
-    
-        
-        
-
-        
+            return True  
+        else: return False
 
     def draw(self, win):
         pygame.draw.rect(win, self.color, (self.x, self.y, self.width, self.height))
@@ -76,7 +75,7 @@ class Cube():
 player =Cube(BLUE,200,200,10,0,0,20)
 othercubes = []
 for i in range(3):
-    othercubes.append(Cube(WHITE,400,400+(i*15),10,0,0,20))
+    othercubes.append(Cube(WHITE,400,400+(i*30),10,0,0,20))
 clock = pygame.time.Clock()
 running = True
 
@@ -84,7 +83,7 @@ gamecontrol = 0
 font = pygame.font.Font('freesansbold.ttf', 32)
 speed = 3
 
-print(othercubes)
+
 while running:
     
     if gamecontrol ==60:
@@ -119,10 +118,11 @@ while running:
             if cubex == cube:
                 pass
             else: cube.is_collided_with(cubex)
-            player.is_collided_with(cube)
+            print(player.is_collided_with(cube))
+
       
     
-    print(player.x,player.y)
+    
     # Update the display
     pygame.display.flip()
     screen.fill(BLACK)
