@@ -26,6 +26,7 @@ class Cube():
         self.height = size
         self.width = size
         self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
+
     def update(self):
         self.x += self.xvel/10
         self.y += self.yvel/10
@@ -33,26 +34,27 @@ class Cube():
         if gamecontrol %15 == 0:
             if self.xvel == 0: pass
             elif self.xvel<0:
-                self.xvel+=0.5*speed
+                self.xvel+=0.3*speed
             
             elif self.xvel>0:
-                self.xvel-=0.5*speed
+                self.xvel-=0.3*speed
             
             if self.yvel == 0: pass
             elif self.yvel<0:
-                self.yvel+=0.5*speed
+                self.yvel+=0.3*speed
             elif self.yvel>0:
-                self.yvel-=0.5*speed
+                self.yvel-=0.3*speed
+
         if self.x >800 or self.x<0:
             self.x *=-1
         if self.y >800 or   self.y<0:
             self.y *=-1
 
     def collidetest(self,other):
-        if (other.x > self.x-10 or other.x < self.x+10) and (other.y > self.y-10 or other.y < self.y+10):
-            return False
-        elif (other.x < self.x-10 or other.x > self.x+10) and (other.y < self.y-10 or other.y > self.y+10):
+        if (other.x > self.x-15 and other.x < self.x+15) and (other.y > self.y-15 and other.y < self.y+15):
             return True
+        elif (other.x < self.x-15 and other.x > self.x+15) and (other.y < self.y-15 and other.y > self.y+15):
+            return False
     def kinenergy(self):
         asq = self.xvel**2
         bsq = self.yvel**2
@@ -61,10 +63,12 @@ class Cube():
         
     def is_collided_with(self, other):     
         if self.collidetest(other):
-            other.xvel = (self.xvel+other.xvel)/2
-            other.yvel = (self.yvel+other.yvel)/2
-            self.xvel = (self.xvel+other.xvel)/2
-            self.yvel = (self.yvel+other.yvel)/2
+            other.xvel = (self.xvel+other.xvel)/2*-1
+            other.yvel = (self.yvel+other.yvel)/2*-1
+            self.xvel = (self.xvel+other.xvel)/2*-1
+            self.yvel = (self.yvel+other.yvel)/2*-1
+            
+            if self.x > other.x + 15 and self.x < other.x - 15 and self.y > other.y + 15 and self.y < other.y - 15  :
             return True  
         else: return False
 
