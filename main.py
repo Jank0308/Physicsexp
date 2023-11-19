@@ -30,20 +30,20 @@ class Cube():
     def update(self):
         self.x += self.xvel/10
         self.y += self.yvel/10
-        #friction #
+        #friction 
         if gamecontrol %15 == 0:
             if self.xvel == 0: pass
             elif self.xvel<0:
-                self.xvel+=0.3*speed
+                self.xvel+=1
             
             elif self.xvel>0:
-                self.xvel-=0.3*speed
+                self.xvel-=1
             
             if self.yvel == 0: pass
             elif self.yvel<0:
-                self.yvel+=0.3*speed
+                self.yvel+=1
             elif self.yvel>0:
-                self.yvel-=0.3*speed
+                self.yvel-=1
 
         if self.x >800 or self.x<0:
             self.x *=-1
@@ -51,9 +51,9 @@ class Cube():
             self.y *=-1
 
     def collidetest(self,other):
-        if (other.x > self.x-15 and other.x < self.x+15) and (other.y > self.y-15 and other.y < self.y+15):
+        if (other.x > self.x-16 and other.x < self.x+16) and (other.y > self.y-16 and other.y < self.y+16):
             return True
-        elif (other.x < self.x-15 and other.x > self.x+15) and (other.y < self.y-15 and other.y > self.y+15):
+        elif (other.x < self.x-16 and other.x > self.x+16) and (other.y < self.y-16 and other.y > self.y+16):
             return False
     def kinenergy(self):
         asq = self.xvel**2
@@ -68,7 +68,11 @@ class Cube():
             self.xvel = (self.xvel+other.xvel)/2*-1
             self.yvel = (self.yvel+other.yvel)/2*-1
             
-            if self.x > other.x + 15 and self.x < other.x - 15 and self.y > other.y + 15 and self.y < other.y - 15  :
+            if self.x+15>=other.x -15 and self.x < other.x: self.x =other.x-20
+            if self.x-15<=other.x +15 and self.x > other.x: self.x = other.x +20
+            if self.y+15>=other.y -15 and self.y < other.y: self.y = other.y -20
+            if self.y-15<=other.y +15 and self.y > other.y: self.y= other.y +20
+
             return True  
         else: return False
 
